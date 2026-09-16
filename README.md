@@ -97,3 +97,13 @@ Internet
              ▼
      http://<ip-da-ec2>:30080
 ```
+
+## ✅ Status: testado e validado em produção
+
+- **Cluster ativo, testado com sucesso:**
+  - API rodando e acessível: `http://54.236.48.235:30080/swagger`
+  - Healthcheck: `http://54.236.48.235:30080/health`
+  - 2 pods em `Running`, conectados ao RDS gerenciado
+- **Deploy automático testado**: pipeline de CI/CD do repositório da aplicação (`OficinaMecanicaWagyu`) conecta via SSH nesta EC2 e atualiza os pods automaticamente a cada push — sem runner self-hosted.
+
+⚠️ **Nota sobre o IP público:** o IP acima pode mudar se a instância EC2 for reiniciada (não é um Elastic IP fixo). Se isso acontecer, confirme o IP novo, atualize o secret `EC2_HOST` no repositório `OficinaMecanicaWagyu`, e rebaixe o kubeconfig com o IP novo.
