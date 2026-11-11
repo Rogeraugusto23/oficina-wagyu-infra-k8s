@@ -1,4 +1,4 @@
-data "aws_vpc" "default" {
+﻿data "aws_vpc" "default" {
   default = true
 }
 
@@ -75,8 +75,13 @@ resource "aws_instance" "k3s_node" {
   key_name               = var.key_pair_name
   subnet_id              = data.aws_subnets.default.ids[0]
   vpc_security_group_ids = [aws_security_group.k3s.id]
+  iam_instance_profile   = "LabInstanceProfile"
+  metadata_options {
+    http_tokens                 = "optional"
+    http_put_response_hop_limit = 2
+  }
 
-  # Instala o K3s (Kubernetes leve) automaticamente na primeira inicialização.
+  # Instala o K3s (Kubernetes leve) automaticamente na primeira inicializaÃ§Ã£o.
   # --write-kubeconfig-mode 644 permite ler o kubeconfig sem sudo, facilitando
   # buscar o arquivo via scp para uso local/CI.
   user_data = <<-EOF
@@ -94,3 +99,4 @@ resource "aws_instance" "k3s_node" {
     Projeto = "OficinaMecanicaWagyu"
   }
 }
+
